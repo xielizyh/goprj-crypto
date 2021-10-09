@@ -11,6 +11,8 @@ func Execute() error {
 }
 
 func init() {
-	// 注册单词命令
+	// 注册Hash命令
 	rootCmd.AddCommand(hashCmd)
+	// 注册Mac命令
+	rootCmd.AddCommand(macCmd)
 }
