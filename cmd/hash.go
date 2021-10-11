@@ -17,6 +17,7 @@ var hashDesc = strings.Join([]string{
 	"哈希命令支持的算法如下：",
 	"sha256",
 	"sha512",
+	"sm3",
 }, "\n")
 
 var hashCmd = &cobra.Command{

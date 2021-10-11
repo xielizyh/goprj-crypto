@@ -7,6 +7,8 @@ import (
 	"hash"
 	"io"
 	"os"
+
+	sm3 "github.com/tjfoc/gmsm/sm3"
 )
 
 // Compute 计算消息摘要
@@ -17,6 +19,8 @@ func Compute(alg string, message string) ([]byte, error) {
 		h = sha256.New()
 	case "sha512":
 		h = sha512.New()
+	case "sm3":
+		h = sm3.New()
 	default:
 		return nil, errors.New("暂不支持该算法")
 	}
@@ -40,6 +44,8 @@ func ComputeFile(alg string, name string) ([]byte, error) {
 		h = sha256.New()
 	case "sha512":
 		h = sha512.New()
+	case "sm3":
+		h = sm3.New()
 	default:
 		return nil, errors.New("暂不支持该算法")
 	}
