@@ -15,4 +15,6 @@ func init() {
 	rootCmd.AddCommand(hashCmd)
 	// 注册Mac命令
 	rootCmd.AddCommand(macCmd)
+	// 注册Enc命令
+	rootCmd.AddCommand(encCmd)
 }
