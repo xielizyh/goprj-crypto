@@ -11,7 +11,8 @@ import (
 var encAlg string
 var encKey string
 var encMsg string
-var encFile string
+var encInFile string
+var encOutFile string
 var encMode string
 
 // desc 长的帮助描述
@@ -32,22 +33,24 @@ var encCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		var value []byte
 		var err error
-		if encFile == "" {
+		if encInFile == "" {
 			if encMode == "d" {
 				value, err = enc.CipherDecrypt(encAlg, encKey, encMsg)
 			} else {
 				value, err = enc.CipherEncrypt(encAlg, encKey, encMsg)
 			}
-
 		} else {
-			// value, err = enc.ComputeFile(encAlg, encKey, encFile)
+			if encMode == "d" {
+				// err = enc.CipherDecryptFile(encAlg, encKey, encInFile)
+			} else {
+				err = enc.CipherEncryptFile(encAlg, encKey, encInFile, encOutFile)
+			}
 		}
 		if err != nil {
 			log.Fatalln(err)
 		} else {
 			if encMode == "d" {
 				log.Printf("输出明文：%x", value)
-
 			} else {
 				log.Printf("输出密文：%x", value)
 			}
@@ -60,6 +63,7 @@ func init() {
 	encCmd.Flags().StringVarP(&encAlg, "alg", "a", "", "请输入算法")
 	encCmd.Flags().StringVarP(&encKey, "key", "k", "", "请输入密钥(hex形式)")
 	encCmd.Flags().StringVarP(&encMsg, "msg", "m", "", "请输入消息内容(hex形式)")
-	encCmd.Flags().StringVarP(&encFile, "file", "f", "", "请指定消息文件名")
+	encCmd.Flags().StringVarP(&encInFile, "in", "i", "", "请指定输入消息文件名")
+	encCmd.Flags().StringVarP(&encOutFile, "out", "o", "", "请指定输出消息文件名")
 	encCmd.Flags().StringVarP(&encMode, "pattern", "p", "e", "请指定加密(e)或解密(d)")
 }

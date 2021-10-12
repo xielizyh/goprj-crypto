@@ -1,10 +1,13 @@
 package enc
 
 import (
+	"bufio"
 	"bytes"
 	"crypto/aes"
 	"encoding/hex"
 	"errors"
+	"io"
+	"os"
 )
 
 // CipherEncrypt 消息加密
@@ -31,6 +34,56 @@ func CipherEncrypt(alg string, key string, message string) ([]byte, error) {
 	}
 
 	return nil, nil
+}
+
+// CipherEncryptFile 加密文件
+func CipherEncryptFile(alg, key, infile, outfile string) error {
+	var encKey []byte
+	var err error
+	if encKey, err = hex.DecodeString(key); err != nil {
+		return err
+	}
+	in, err := os.Open(infile)
+	if err != nil {
+		return err
+	}
+	defer in.Close()
+	out, err := os.OpenFile(outfile, os.O_WRONLY|os.O_CREATE, 0666)
+	if err != nil {
+		return err
+	}
+	defer out.Close()
+
+	inReader := bufio.NewReader(in)
+	outWriter := bufio.NewWriter(out)
+
+	inbuf := make([]byte, len(encKey))
+	outbuf := make([]byte, len(encKey))
+	for {
+		if _, err := inReader.Read(inbuf); err != nil {
+			if err == io.EOF {
+				break
+			}
+			return err
+		}
+		switch alg {
+		case "aes-128-ecb":
+			outbuf, err = aesECBEncWithPKCS7Padding(encKey, inbuf)
+		case "aes-128-cbc":
+		case "aes-128-ctr":
+		default:
+			return errors.New("暂不支持该算法")
+		}
+		if err != nil {
+			return err
+		}
+		if _, err := outWriter.Write(outbuf); err != nil {
+			return err
+		}
+	}
+	outWriter.Flush()
+
+	return nil
 }
 
 // CipherEncrypt 消息解密
