@@ -33,7 +33,7 @@ var encCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		var value []byte
 		var err error
-		if encInFile == "" {
+		if encInFile == "" && encOutFile == "" {
 			if encMode == "d" {
 				value, err = enc.CipherDecrypt(encAlg, encKey, encMsg)
 			} else {
@@ -41,7 +41,7 @@ var encCmd = &cobra.Command{
 			}
 		} else {
 			if encMode == "d" {
-				// err = enc.CipherDecryptFile(encAlg, encKey, encInFile)
+				err = enc.CipherDecryptFile(encAlg, encKey, encInFile, encOutFile)
 			} else {
 				err = enc.CipherEncryptFile(encAlg, encKey, encInFile, encOutFile)
 			}
@@ -50,9 +50,17 @@ var encCmd = &cobra.Command{
 			log.Fatalln(err)
 		} else {
 			if encMode == "d" {
-				log.Printf("输出明文：%x", value)
+				if encInFile == "" && encOutFile == "" {
+					log.Printf("输出明文：%x", value)
+				} else {
+					log.Printf("解密成功：[%s->%s]", encInFile, encOutFile)
+				}
 			} else {
-				log.Printf("输出密文：%x", value)
+				if encInFile == "" && encOutFile == "" {
+					log.Printf("输出密文：%x", value)
+				} else {
+					log.Printf("加密成功：[%s->%s]", encInFile, encOutFile)
+				}
 			}
 		}
 	},

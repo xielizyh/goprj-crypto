@@ -60,15 +60,71 @@ func CipherEncryptFile(alg, key, infile, outfile string) error {
 	inbuf := make([]byte, len(encKey))
 	outbuf := make([]byte, len(encKey))
 	for {
-		if _, err := inReader.Read(inbuf); err != nil {
+		if len, err := inReader.Read(inbuf); err != nil {
 			if err == io.EOF {
 				break
 			}
 			return err
+		} else {
+			// 实际读取的数据
+			inbuf = inbuf[:len]
 		}
 		switch alg {
 		case "aes-128-ecb":
 			outbuf, err = aesECBEncWithPKCS7Padding(encKey, inbuf)
+		case "aes-128-cbc":
+		case "aes-128-ctr":
+		default:
+			return errors.New("暂不支持该算法")
+		}
+		if err != nil {
+			return err
+		}
+		if _, err := outWriter.Write(outbuf); err != nil {
+			return err
+		}
+	}
+	outWriter.Flush()
+
+	return nil
+}
+
+// CipherEncryptFile 解密文件
+func CipherDecryptFile(alg, key, infile, outfile string) error {
+	var decKey []byte
+	var err error
+	if decKey, err = hex.DecodeString(key); err != nil {
+		return err
+	}
+	in, err := os.Open(infile)
+	if err != nil {
+		return err
+	}
+	defer in.Close()
+	out, err := os.OpenFile(outfile, os.O_WRONLY|os.O_CREATE, 0666)
+	if err != nil {
+		return err
+	}
+	defer out.Close()
+
+	inReader := bufio.NewReader(in)
+	outWriter := bufio.NewWriter(out)
+
+	inbuf := make([]byte, len(decKey))
+	outbuf := make([]byte, len(decKey))
+	for {
+		if len, err := inReader.Read(inbuf); err != nil {
+			if err == io.EOF {
+				break
+			}
+			return err
+		} else {
+			// 实际读取的数据
+			inbuf = inbuf[:len]
+		}
+		switch alg {
+		case "aes-128-ecb":
+			outbuf, err = aesECBDecWithPKCS7Padding(decKey, inbuf)
 		case "aes-128-cbc":
 		case "aes-128-ctr":
 		default:
