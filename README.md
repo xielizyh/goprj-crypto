@@ -72,5 +72,14 @@
    -m "hello world"
    ```
 
+
+2. delve带参数调试
+
+   [添加**--**](https://ask.csdn.net/questions/1031161)
+
+   ```bash
+   dlv debug . -- hash -a sha256 -m 'hello world'
+   ```
+
    
 

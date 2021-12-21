@@ -15,7 +15,7 @@ var macFile string
 
 // desc 长的帮助描述
 var macDesc = strings.Join([]string{
-	"消息认证码命令支持的算法如下：",
+	"消息认证码命令支持的算法如下:",
 	"hmac-sha256",
 }, "\n")
 
@@ -34,7 +34,7 @@ var macCmd = &cobra.Command{
 		if err != nil {
 			log.Fatalln(err)
 		} else {
-			log.Printf("输出消息认证码：%x", value)
+			log.Printf("输出消息认证码: %x", value)
 		}
 	},
 }

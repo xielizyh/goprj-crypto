@@ -14,7 +14,7 @@ var hashFile string
 
 // hashDesc 长的帮助描述
 var hashDesc = strings.Join([]string{
-	"哈希命令支持的算法如下：",
+	"哈希命令支持的算法如下:",
 	"sha256",
 	"sha512",
 	"sm3",
@@ -35,7 +35,7 @@ var hashCmd = &cobra.Command{
 		if err != nil {
 			log.Fatalln(err)
 		} else {
-			log.Printf("输出消息摘要：%x", value)
+			log.Printf("输出消息摘要: %x", value)
 		}
 	},
 }

@@ -17,7 +17,7 @@ var encMode string
 
 // desc 长的帮助描述
 var encDesc = strings.Join([]string{
-	"对称加解密命令支持的算法如下：",
+	"对称加解密命令支持的算法如下:",
 	"aes-128-ecb",
 	"aes-128-cbc",
 	"aes-128-ctr",
@@ -51,15 +51,15 @@ var encCmd = &cobra.Command{
 		} else {
 			if encMode == "d" {
 				if encInFile == "" && encOutFile == "" {
-					log.Printf("输出明文：%x", value)
+					log.Printf("输出明文: %x", value)
 				} else {
-					log.Printf("解密成功：[%s->%s]", encInFile, encOutFile)
+					log.Printf("解密成功: [%s->%s]", encInFile, encOutFile)
 				}
 			} else {
 				if encInFile == "" && encOutFile == "" {
-					log.Printf("输出密文：%x", value)
+					log.Printf("输出密文: %x", value)
 				} else {
-					log.Printf("加密成功：[%s->%s]", encInFile, encOutFile)
+					log.Printf("加密成功: [%s->%s]", encInFile, encOutFile)
 				}
 			}
 		}
