@@ -11,8 +11,8 @@ func Execute() error {
 }
 
 func init() {
-	// 注册Base64命令
-	rootCmd.AddCommand(base64Cmd)
+	// 注册Utf8命令
+	rootCmd.AddCommand(utf8Cmd)
 	// 注册Hash命令
 	rootCmd.AddCommand(hashCmd)
 	// 注册Mac命令
