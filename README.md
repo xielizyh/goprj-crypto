@@ -26,7 +26,7 @@
 4. base64转换为utf8
 
    ```bash
-   xxxxxxxxxx ./crypto utf8 -f base64 -r -m aGVsbG8gd29ybGQ=
+   ./crypto utf8 -f base64 -r -m aGVsbG8gd29ybGQ=
    ```
 
    
@@ -105,7 +105,7 @@
 
 2. delve带参数调试
 
-   [添加**--**](https://ask.csdn.net/questions/1031161)
+   [添加--](https://ask.csdn.net/questions/1031161)
 
    ```bash
    dlv debug . -- hash -a sha256 -m 'hello world'
