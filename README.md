@@ -1,6 +1,36 @@
 # goprj-crypto
 基于go语言实现的常见密码算法运算命令行工具
 
+## utf8转换
+
+以在linux上进行举例。
+
+1. utf8转换为hex
+
+   ```bash
+   ./crypto utf8 -f hex -m 'hello world'
+   ```
+
+2. hex转换为utf8
+
+   ```bash
+   ./crypto utf8 -f hex -r -m 68656c6c6f20776f726c64
+   ```
+
+3. utf8转换为base64
+
+   ```bash
+   ./crypto utf8 -f base64 -m 'hello world'
+   ```
+
+4. base64转换为utf8
+
+   ```bash
+   xxxxxxxxxx ./crypto utf8 -f base64 -r -m aGVsbG8gd29ybGQ=
+   ```
+
+   
+
 ## 哈希算法
 
 以在linux上进行举例。
